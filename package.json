@@ -4,10 +4,15 @@
   "description": "A fast Poisson Disk sampling algorithm for random 2D points generation",
   "author": "Ogus",
   "license": "WTFPL",
-  "main": "src/poisson-disk.js",
+  "main": ".build/poisson-disk.js",
+  "files": [
+    "build"
+  ],
   "scripts": {
-    "test": "node test/test.js | faucet",
-    "build": "uglifyjs src/poisson-disk.js -c -m reserved=['PoissonDisk'] -o src/poisson-disk.min.js"
+    "prebuild": "rimraf ./build",
+    "build": "tsc && tsc -P tsconfig.declaration.json",
+    "prepare": "npm run build",
+    "test": "jest --silent=false --verbose false"
   },
   "devDependencies": {
     "faucet": "0.0.1",
