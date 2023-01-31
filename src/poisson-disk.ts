@@ -11,27 +11,13 @@ interface Grid {
 
 export class PoissonDisk {
 
-  constructor(option: { viewport: [number, number, number, number], minDistance?: number, maxTries?: number }, rng: () => number) {
-    this.xMin = option.viewport[0];
-    this.xMax = option.viewport[1];
-    this.yMin = option.viewport[2];
-    this.yMax = option.viewport[3];
-    this.radius = Math.max(option.minDistance ?? 1, 1);
-    this.k = Math.max(option.maxTries ?? 30, 2);
-    this.random = rng;
-    this.grid.cellSize = this.radius * Math.SQRT1_2;
-    this.grid.width = Math.ceil((this.xMax - this.xMin) / this.grid.cellSize);
-    this.grid.height = Math.ceil((this.yMax - this.yMin) / this.grid.cellSize);
-    this.grid.data = new Array(this.grid.width * this.grid.height);
-    this.initializeState();
-  }
 
-  xMin = 0;
-  xMax = 0;
-  yMin = 0;
-  yMax = 0;
-  radius = 1;
-  k = 30;
+  xMin: number;
+  xMax: number;
+  yMin: number;
+  yMax: number;
+  radius: number;
+  k: number;
   random: () => number;
   pointQueue: Point[] = [];
   firstPoint: boolean = true;
@@ -42,6 +28,21 @@ export class PoissonDisk {
     cellSize: 0,
     data: []
   };
+
+  constructor(viewport: [number, number, number, number], minDistance: number = 1, maxTries: number = 30, rng?: () => number) {
+    this.xMin = viewport[0];
+    this.xMax = viewport[1];
+    this.yMin = viewport[2];
+    this.yMax = viewport[3];
+    this.radius = Math.max(minDistance, 1);
+    this.k = Math.max(maxTries, 2);
+    this.random = rng ?? Math.random;
+    this.grid.cellSize = this.radius * Math.SQRT1_2;
+    this.grid.width = Math.ceil((this.xMax - this.xMin) / this.grid.cellSize);
+    this.grid.height = Math.ceil((this.yMax - this.yMin) / this.grid.cellSize);
+    this.grid.data = new Array(this.grid.width * this.grid.height);
+    this.initializeState();
+  }
 
   reset() {
     this.initializeState();
