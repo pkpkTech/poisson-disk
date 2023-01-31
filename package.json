@@ -4,6 +4,7 @@
   "description": "A fast Poisson Disk sampling algorithm for random 2D points generation",
   "author": "Ogus",
   "license": "WTFPL",
+  "types": "./build/poisson-disk.d.ts",
   "main": ".build/poisson-disk.js",
   "files": [
     "build"
